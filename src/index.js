@@ -188,6 +188,9 @@ app.get('/:username', async (req, res) => {
     })
 })
 
+app.get('*', async (req, res) => {
+    res.render('404')
+})
 
 
 
