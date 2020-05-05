@@ -1,15 +1,19 @@
 // Importing Necessary Dependencies
 const express = require('express')
 const app = express()
+const ejs = require('ejs')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./auth/auth')
+const flash = require('connect-flash')
 
 
 
-const db_url = 'mongodb://127.0.0.1:27017/anonymous'
+// const db_url = 'mongodb://127.0.0.1:27017/anonymous'
+const db_url = 'mongodb+srv://Olusola:olusola10000@cluster0-lo248.mongodb.net/anonymous?retryWrites=true&w=majority'
 
 mongoose.connect(db_url, 
     { 
@@ -22,10 +26,15 @@ mongoose.connect(db_url,
 
 
 const port = process.env.PORT || 8000
-
-app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(express.json())
+app.use(express.static(__dirname + '/public'));
+app.set('view engine', 'ejs')
+app.set('views', __dirname + '/views')
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
+app.use(flash())
+
+
 app.use(require('express-session')({
     secret: 'Anonymous',
     resave: false,
@@ -39,9 +48,9 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
 app.use(async (req, res, next) => {
-    res.locals.currentAdmin = req.user;
-    // res.locals.error = req.flash('error')
-    // res.locals.success = req.flash('success')
+    res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error')
+    res.locals.success = req.flash('success')
     next();
 })
 
@@ -57,37 +66,58 @@ const Anonymous_Message = mongoose.model('Anonymous_Message', anonSchema)
 
 // User Authentication Routes
 app.get("/signup", async (req, res) => {
-    res.render('register')
+    res.render('signup')
 })
 
+// post route for signing up
 app.post("/signup", async (req, res) => {
     const newUser = new User({username: req.body.username})
     User.register(newUser, req.body.password, (err, User) => {
         if(err){
             console.log(err);
-            return res.render('register')
+            req.flash('error', 'An error occurred: ' + err.message)            
+            return res.redirect('/signup')
         }
         passport.authenticate('local')(req, res, () => {
-            res.send('Successful')
+            req.flash('success', `Hello ${User.username}!`)                                    
+            res.redirect('/profile')
             console.log(User)
         })
     })
 })
 
+app.get('/profile', isLoggedIn, async (req,res) => {
+    const foundUser = req.user
+    res.render('profile', {user: foundUser})
+})
+
+// view-messages route
+app.get('/messages', isLoggedIn, async(req, res) => {
+    await User.findById(req.user._id).populate('anonymousMessage').exec((err, foundUser) => {
+        if(err){
+            console.log(err)
+            req.flash('error', 'An error occurred: ' + err.message)            
+            res.redirect('/profile')
+        } else {
+            res.render('messages', {user: foundUser})
+        }
+    })        
+})
+
 
 app.get('/login', async (req, res) => {
     // res.render('login')
-    res.send('login route reached')
+    res.render('login')
 })
 
 app.get('/auth-success', async (req, res) => {
-    // req.flash('success', 'Successfully logged in as: ' + req.user.username)
-    res.status(200).send('Successfully logged in')
+    req.flash('success', 'Successfully logged in as: ' + req.user.username)
+    res.redirect('/profile')
 })
 
 app.get('/auth-failure', async (req, res) => {
-    // req.flash('error', 'Incorrect Details')
-    res.status(400).send('Login Failed')
+    req.flash('error', 'Incorrect Details, try again')
+    res.redirect('/login')
 })
 
 app.post('/login', passport.authenticate('local', 
@@ -102,18 +132,22 @@ app.post('/login', passport.authenticate('local',
 
 app.get('/logout', async (req, res) => {
     req.logout();
-    // req.flash('success', 'Successfully logged out!')
-    // res.redirect('/login')
-    res.send('Successfully Logged Out')
+    req.flash('success', 'Successfully logged out!')
+    res.redirect('/')
 })
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    // req.flash('error', 'Oops, Please Login!')
-    res.send('Please Login')
+    req.flash('error', 'Oops, Please Login!')
+    res.redirect('/login')
 }
+
+// landing page
+app.get('/', async (req, res) => {
+    res.render('index')
+})
 
 
 app.post('/:id', async (req, res) => {
@@ -129,28 +163,32 @@ app.post('/:id', async (req, res) => {
                 } else {
                     foundUser.anonymousMessage.push(anon)
                     foundUser.save()
-                    res.status(201).send(foundUser)
+                    res.redirect('/success')
                 }
             })
-        }
-        
+        }    
     })
 })
 
-app.get('/:id', isLoggedIn, async(req, res) => {
-    if(req.user._id != req.params.id){
-        console.log('Not your profile')
-        res.send('Not your profile')
-    } else {
-        await User.findById(req.params.id).populate('anonymousMessage').exec((err, foundUser) => {
-            if(err){
-                console.log(err)
-            } else {
-                res.send(foundUser.anonymousMessage)
-            }
-        })        
-    }
+app.get('/success', async (req, res) => {
+    res.render('post-post')
 })
+
+app.get('/:username', async (req, res) => {
+    const toUser = {
+        username: req.params.username
+    }
+    await User.findOne(toUser, (err, user) => {
+        if(err){
+            console.log(err)
+            res.send('404, An Error Occurred!!!!')
+        } else {
+            res.render('post', {user: user})
+        }
+    })
+})
+
+
 
 
 // Server Starter

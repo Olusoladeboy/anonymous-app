@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup | Anonymous</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: black;">
+    <main>
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <h1 class="display-3 text-center"><a class="text-dark" href="/">Anonymous App</a></h1>
+                <p class="lead text-center">This is a Web App that allows you send/receive anonymous messages.</p>
+                <small id="usernameHelp" class="form-text text-muted text-center">Created by <a href="http://www.olusola.tk" target="_blank" rel="noopener noreferrer">Emmanuel Olusola</a> </small>                
+                <hr class="my-4">
+                <p class="text-center h3">Sign Up!!!</p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div>
+                                <% if(error && error.length > 0){ %>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <strong> <%= error %> </strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>  
+                                <% } %>    
+                            </div>
+                            <form action="/signup" method="POST" autocomplete="off">
+                                <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Enter Username">
+                                <small id="usernameHelp" class="form-text text-muted">This should be unique to you alone.</small>
+                                </div>
+                                <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                                </div>
+                                <button type="submit" class="btn btn-success w-100">Sign Up</button>
+                            </form>                             
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+    </main>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

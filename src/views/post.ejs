@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/styles.css"> 
+</head>
+<body style="background-color: black;">
+    <main class="pt-5"> 
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <h1 class="display-3 text-center"><a class="text-dark" href="/">Anonymous App</a></h1>
+                <p class="lead text-center">This is a Web App that allows you send/receive anonymous messages.</p>
+                <small id="usernameHelp" class="form-text text-muted text-center">Created by <a href="http://www.olusola.tk" target="_blank" rel="noopener noreferrer">Emmanuel Olusola</a> </small>
+                <hr class="my-4">
+                <p class="text-center">Write an anoymous message to <%= user.username %></p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div>
+                                <form action="/<%= user._id %>" method="post">
+                                    <div class="form-group">
+                                        <label for="anon" class="text-center w-100">Anonymous Message</label>
+                                        <textarea name="anonymous_message" class="form-control" id="anon" rows="5" maxlength="300"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-secondary w-100">Submit</button>                                    
+                                </form>                                  
+                            </div>  
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+    </main>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
