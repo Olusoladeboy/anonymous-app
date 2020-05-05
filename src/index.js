@@ -26,27 +26,26 @@ mongoose.connect(db_url,
 
 
 const port = process.env.PORT || 8000
-app.use(express.json())
-app.use(express.static(__dirname + '/public'));
+
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
+
+app.use(express.json())
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.use(flash())
-
-
 app.use(require('express-session')({
     secret: 'Anonymous',
     resave: false,
     saveUninitialized: false
 }));
-
 app.use(passport.initialize())
 app.use(passport.session()) 
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-
 app.use(async (req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.error = req.flash('error')
@@ -151,6 +150,13 @@ app.get('/', async (req, res) => {
 
 
 app.post('/:id', async (req, res) => {
+    const id = req.params.id
+    var valid = await mongoose.Types.ObjectId.isValid(id)
+    console.log(valid) 
+    if(!valid){
+        req.flash('error', 'An error occurred')
+        return res.redirect('/')
+    }   
     await User.findById(req.params.id, async (err, foundUser) => {
         if(err){
             console.log(err)
@@ -175,13 +181,20 @@ app.get('/success', async (req, res) => {
 })
 
 app.get('/:username', async (req, res) => {
+    if(!req.params.username){
+        console.log(req.params.username)
+        req.flash('error', 'An error occurred')
+        return res.redirect('/')
+    }
     const toUser = {
         username: req.params.username
     }
+    console.log(toUser)
     await User.findOne(toUser, (err, user) => {
         if(err){
             console.log(err)
-            res.send('404, An Error Occurred!!!!')
+            req.flash('error', 'Error')
+            res.redirect('/')
         } else {
             res.render('post', {user: user})
         }
