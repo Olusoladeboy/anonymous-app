@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.username %> | Anonymous</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">    
+</head>
+<body style="background-color: black;">
+    <main class="pt-5"> 
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <h1 class="display-3 text-center"><a class="text-dark" href="/">Anonymous App</a></h1>
+                <p class="lead text-center">This is a Web App that allows you send/receive anonymous messages.</p>
+                <small id="usernameHelp" class="form-text text-muted text-center">Created by <a href="http://www.olusola.tk" target="_blank" rel="noopener noreferrer">Emmanuel Olusola</a> </small>
+                <hr class="my-4">
+                <div>
+                    <% if(success && success.length > 0){ %>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong> <%= success %> </strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>  
+                    <% } %>  
+                    <% if(error && error.length > 0){ %>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong> <%= error %> </strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>  
+                    <% } %>                        
+                </div>                
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div>
+                                <p class="lead text-center">You can share your link to your friends to write something anonymous about you.</p>
+                                <p class="lead text-center"><a href="localhost:8000/<%= user.username %>" target="_blank" rel="noopener noreferrer">localhost:8000/<%= user.username %></a></p>
+                                <a href="/messages" class="btn btn-success w-100">Messages</a>
+                                <a href="/logout" class="btn btn-danger w-100 mt-5">Logout</a>
+                            </div>  
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+    </main>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
