@@ -45,7 +45,7 @@
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <div>
                                         <p class="lead text-center">You can share your link to your friends to write something anonymous about you.</p>
-                                        <p class="lead text-center"><a href="localhost:8000/<%= user.username %>" target="_blank" rel="noopener noreferrer">localhost:8000/<%= user.username %></a></p>
+                                        <p id="url" class="lead text-center"><a href="<%= host %> /<%= user.username %>" target="_blank" rel="noopener noreferrer">www.<%= host %>/<%= user.username %></a></p>
                                         <a href="/messages" class="btn btn-success w-100">Messages</a>
                                         <a href="/logout" class="btn btn-danger w-100 mt-5">Logout</a>
                                     </div>  

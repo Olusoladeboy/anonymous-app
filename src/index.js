@@ -87,7 +87,7 @@ app.post("/signup", async (req, res) => {
 
 app.get('/profile', isLoggedIn, async (req,res) => {
     const foundUser = req.user
-    res.render('profile', {user: foundUser})
+    res.render('profile', {user: foundUser, host: req.headers.host})
 })
 
 // view-messages route
