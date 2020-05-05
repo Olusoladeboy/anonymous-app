@@ -26,15 +26,15 @@
                             <div class="row">
                                 <div class="col-lg-3 col-md-12 col-sm-12"></div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <div class="bg-success container">
-                                        <a href="/profile" class="btn btn-warning">Go Back</a>
-                                        <p class="lead text-white">View Messages Below</p>
+                                    <div class="bg-info container">
+                                        <a href="/profile" class="ml-n3 btn btn-dark">Go Back</a>
+                                        <p class="lead text-white font-weight-bold">View Messages Below</p>
                                         <ul class="list-group">
                                             <% user.anonymousMessage.slice().reverse().forEach((messages) => { %>                                   
-                                                <li class="list-group-item"><p><%= messages.anonymous_message %></p></li>
-                                                <div class="text-right">
-                                                    <button type="button" class="btn btn-primary">
-                                                        Anonymous <span class="badge badge-light"> - <%= messages.date.toDateString() %> </span>
+                                                <li class="list-group-item"><p class=""><%= messages.anonymous_message %></p></li>
+                                                <div class="text-right mb-3">
+                                                    <button type="button" class="btn btn-dark">
+                                                        Anonymous <span class="badge badge-secondary"> - <%= messages.date.toDateString() %> </span>
                                                         <span class="sr-only">Anonymous</span>
                                                     </button>                                            
                                                 </div>
