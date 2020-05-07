@@ -9,6 +9,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./auth/auth')
 const flash = require('connect-flash')
+const cors = require('cors')
 
 
 
@@ -36,6 +37,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.use(flash())
+app.use(cors())
 app.use(require('express-session')({
     secret: 'Anonymous',
     resave: false,

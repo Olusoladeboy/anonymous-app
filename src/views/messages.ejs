@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">    
 </head>
-<body class="w-100" style="background-color: black;">
+<body class="w-100" style="background-color: black">
     <main class="pt-5"> 
         <div class="container mt-5">
             <div class="jumbotron">
@@ -34,7 +34,7 @@
                                                 <li class="list-group-item"><p class=""><%= messages.anonymous_message %></p></li>
                                                 <div class="text-right mb-3">
                                                     <button type="button" class="btn btn-dark">
-                                                        Anonymous <span class="badge badge-secondary"> - <%= messages.date.toDateString() %> </span>
+                                                        Anonymous <span class="badge badge-secondary"> - <%= messages.date.toISOString().slice(0, 19).replace('T', ' ') %> </span>
                                                         <span class="sr-only">Anonymous</span>
                                                     </button>                                            
                                                 </div>
