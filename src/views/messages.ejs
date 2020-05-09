@@ -34,7 +34,7 @@
                                                 <li class="list-group-item"><p class=""><%= messages.anonymous_message %></p></li>
                                                 <div class="text-right mb-3">
                                                     <button type="button" class="btn btn-dark">
-                                                        Anonymous <span class="badge badge-secondary"> - <%= messages.date.toDateString() %> </span>
+                                                        Anonymous <span class="badge badge-secondary"> - <%= messages.date.toISOString().slice(0, 19).replace('T', ' ') %> </span>
                                                         <span class="sr-only">Anonymous</span>
                                                     </button>                                            
                                                 </div>
