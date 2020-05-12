@@ -68,6 +68,24 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/e2f99e2924.js" crossorigin="anonymous"></script>
     <script src="js/clipboard.min.js"></script>
+    <script>
+        var clipboard = new ClipboardJS('.btn-url');
+
+        clipboard.on('success', function(e) {
+            alert('Copied to clipboard')
+            console.info('Accion:', e.action);
+            console.info('Texto:', e.text);
+            console.info('Trigger:', e.trigger);
+
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function(e) {
+            console.error('Accion:', e.action);
+            console.error('Trigger:', e.trigger);
+});        
+    </script>
     <script src="js/main.js"></script>
+
 </body>
 </html>

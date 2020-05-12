@@ -16,18 +16,6 @@
 // });
 
 
-var clipboard = new ClipboardJS('.btn-url');
 
-clipboard.on('success', function(e) {
-    alert('Copied to clipboard')
-    console.info('Accion:', e.action);
-    console.info('Texto:', e.text);
-    console.info('Trigger:', e.trigger);
 
-    e.clearSelection();
-});
 
-clipboard.on('error', function(e) {
-    console.error('Accion:', e.action);
-    console.error('Trigger:', e.trigger);
-});
