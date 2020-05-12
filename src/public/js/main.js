@@ -1,10 +1,33 @@
-// const url_change = document.getElementById('url')
-// const current_url = 'www.' + window.location.host
-// console.log(current_url)
+// var copyTextBtn = document.querySelector('#copyUrl');
+// console.log(document.querySelector('#url'))
+// document.querySelector('#url').select()
 
-// function url_changer(){
-//     url_change.innerHTML = `<a href="${current_url}/<%= user.username %>" target="_blank" rel="noopener noreferrer">${current_url}/<%= user.username %></a>`
-// }
+// copyTextBtn.addEventListener('click', function(event) {
+//   var copyTextarea = document.querySelector('#url');
+//   copyTextarea.select();
 
-// url_changer()
+//   try {
+//     var successful = document.execCommand('copy');
+//     var msg = successful ? 'successful' : 'unsuccessful';
+//     console.log('Copying text command was ' + msg);
+//   } catch (err) {
+//     console.log('Oops, unable to copy');
+//   }
+// });
 
+
+var clipboard = new ClipboardJS('.btn-url');
+
+clipboard.on('success', function(e) {
+    alert('Copied to clipboard')
+    console.info('Accion:', e.action);
+    console.info('Texto:', e.text);
+    console.info('Trigger:', e.trigger);
+
+    e.clearSelection();
+});
+
+clipboard.on('error', function(e) {
+    console.error('Accion:', e.action);
+    console.error('Trigger:', e.trigger);
+});

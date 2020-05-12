@@ -44,8 +44,11 @@
                                 <div class="col-lg-4 col-md-12 col-sm-12"></div>
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <div class="text-center">
-                                        <p class=" text-center">You can share your link to your friends to write something anonymous about you.</p>
-                                        <small id="url" class="form-text text-muted  text-center"><a href="<%= host %>/<%= user.username %>" target="_blank" rel="noopener noreferrer"><%= host %>/<%= user.username %></a></small>
+                                        <p class=" text-center">Copy and share your link to your friends to write something anonymous about you.</p>
+                                        <button data-clipboard-text="<%= host %>/<%= user.username %>" type="button" class="btn btn-sm btn-light btn-url mb-3">
+                                            <span id="url"><%= host %>/<%= user.username %></span>
+                                            <span class="badge badge-light"><i class="fas fa-copy"></i></span>
+                                        </button>
                                         <a href="/messages" class="btn btn-success w-100">Messages</a>
                                         <a href="/logout" class="btn btn-danger w-100 mt-5">Logout</a>
                                     </div>  
@@ -63,6 +66,8 @@
 
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/e2f99e2924.js" crossorigin="anonymous"></script>
+    <script src="js/clipboard.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
