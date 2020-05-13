@@ -180,31 +180,55 @@ app.get('/success', async (req, res) => {
     res.render('post-post')
 })
 
+
+
 app.get('/:username', async (req, res) => {
     if(!req.params.username){
-        console.log(req.params.username)
+        // console.log(req.params.username)
+        // req.flash('error', 'An error occurred')
+        // res.redirect('/')
+        console.log('User Not Found with username '+req.params.username);
         req.flash('error', 'An error occurred')
-        return res.redirect('/')
-    }
-    const toUser = {
-        username: req.params.username
-    }
-    console.log(toUser)
-    await User.findOne(toUser, (err, user) => {
-        if(err){
-            console.log(err)
-            req.flash('error', 'Error')
-            res.redirect('/')
-        } else {
-            res.render('post', {user: user})
+        return done(null, false, 
+              res.redirect('/')); 
+    } else {
+        const toUser = {
+            username: req.params.username
         }
-    })
+        console.log(toUser)
+        await User.findOne(toUser, (err, user) => {
+            if(err){
+                console.log(err)
+                req.flash('error', 'Error')
+                res.redirect('/')
+            } else {
+                res.render('post', {user: user})
+            }
+        })        
+    }
+
 })
 
 app.get('*', async (req, res) => {
     res.render('404')
 })
 
+app.use((req, res, next) => {
+    const error = new Error("Not found");
+    error.status = 404;
+    next(error);
+});
+
+// error handler middleware
+app.use((error, req, res, next) => {
+    // res.status(error.status || 500).send({
+    // error: {
+    //     status: error.status || 500,
+    //     message: error.message || 'Internal Server Error',
+    // },
+    // });
+    res.status(error.status || 500).render('404')
+});
 
 
 // Server Starter
